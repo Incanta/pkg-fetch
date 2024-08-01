@@ -14,6 +14,7 @@ async function main() {
     .option('node-range', { alias: 'n', default: 'latest', type: 'string' })
     .option('platform', { alias: 'p', default: hostPlatform, type: 'string' })
     .option('arch', { alias: 'a', default: hostArch, type: 'string' })
+    .option('debug', { alias: 'd', type: 'boolean' })
     .option('test', { alias: 't', type: 'boolean' })
     .option('force-fetch', {
       alias: 'f',
@@ -34,6 +35,7 @@ async function main() {
     'node-range': nodeRange,
     platform,
     arch,
+    debug,
     test,
     'force-fetch': forceFetch,
     'force-build': forceBuild,
@@ -44,6 +46,7 @@ async function main() {
     nodeRange,
     platform,
     arch,
+    debug,
     forceFetch,
     forceBuild,
     output,

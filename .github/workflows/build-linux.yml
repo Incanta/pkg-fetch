@@ -2,7 +2,17 @@ name: Build Node binaries for Linux
 
 on:
   workflow_dispatch:
+    inputs:
+      debugBuild:
+        description: 'Create debug binaries instead of release ones?'
+        default: false
+        type: boolean
   workflow_call:
+    inputs:
+      debugBuild:
+        description: 'Create debug binaries instead of release ones?'
+        default: false
+        type: boolean
 
 jobs:
   linux-x64:
@@ -25,6 +35,7 @@ jobs:
         with:
           build-args: |
             PKG_FETCH_OPTION_n=node${{ matrix.target-node }}
+            PKG_FETCH_OPTION_d=${{ inputs.debugBuild }}
           context: .
           file: ./Dockerfile.linux
           platforms: linux/amd64
@@ -64,6 +75,7 @@ jobs:
             TARGET_TOOLCHAIN_ARCH=aarch64
             PKG_FETCH_OPTION_a=arm64
             PKG_FETCH_OPTION_n=node${{ matrix.target-node }}
+            PKG_FETCH_OPTION_d=${{ inputs.debugBuild }}
           context: .
           file: ./Dockerfile.linuxcross
           platforms: linux/amd64

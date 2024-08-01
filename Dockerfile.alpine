@@ -6,6 +6,7 @@ FROM muslcc/$HOST_ARCH:$TARGET_TRIPLE AS build
 ARG PKG_FETCH_OPTION_a
 ARG PKG_FETCH_OPTION_n
 ARG PKG_FETCH_OPTION_p
+ARG PKG_FETCH_OPTION_d
 
 USER root:root
 
@@ -36,7 +37,7 @@ COPY . ./
 
 RUN yarn install --ignore-engines
 
-RUN yarn start --arch $PKG_FETCH_OPTION_a --node-range $PKG_FETCH_OPTION_n --platform $PKG_FETCH_OPTION_p --output dist
+RUN yarn start --arch $PKG_FETCH_OPTION_a --node-range $PKG_FETCH_OPTION_n --platform $PKG_FETCH_OPTION_p --output dist --debug $PKG_FETCH_OPTION_d
 
 FROM scratch
 COPY --from=build /root/pkg-fetch/dist /

@@ -20,12 +20,13 @@ RUN npm install -g yarn
 COPY . ./
 
 ARG PKG_FETCH_OPTION_n
+ARG PKG_FETCH_OPTION_d
 
 RUN yarn install --ignore-engines
 
 RUN scl enable devtoolset-10 rh-python36 \
     " \
-    yarn start --node-range $PKG_FETCH_OPTION_n --output dist \
+    yarn start --node-range $PKG_FETCH_OPTION_n --output dist --debug $PKG_FETCH_OPTION_d \
     "
 
 FROM scratch

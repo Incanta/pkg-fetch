@@ -7,18 +7,32 @@ on:
         description: 'Upload assets to new draft release?'
         default: true
         type: boolean
+      debugBuild:
+        description: 'Create debug binaries instead of release ones?'
+        default: false
+        type: boolean
 
 jobs:
   build-alpine:
     uses: ./.github/workflows/build-alpine.yml
+    with:
+      debugBuild: ${{ inputs.debugBuild }}
   build-linux:
     uses: ./.github/workflows/build-linux.yml
+    with:
+      debugBuild: ${{ inputs.debugBuild }}
   build-linuxstatic:
-   uses: ./.github/workflows/build-linuxstatic.yml
+    uses: ./.github/workflows/build-linuxstatic.yml
+    with:
+      debugBuild: ${{ inputs.debugBuild }}
   build-macos:
-   uses: ./.github/workflows/build-macos.yml
+    uses: ./.github/workflows/build-macos.yml
+    with:
+      debugBuild: ${{ inputs.debugBuild }}
   build-windows:
-   uses: ./.github/workflows/build-windows.yml
+    uses: ./.github/workflows/build-windows.yml
+    with:
+      debugBuild: ${{ inputs.debugBuild }}
 
   collect-artifacts:
     permissions:

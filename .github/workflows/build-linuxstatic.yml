@@ -2,7 +2,17 @@ name: Build Node binaries for Linux static
 
 on:
   workflow_dispatch:
+    inputs:
+      debugBuild:
+        description: 'Create debug binaries instead of release ones?'
+        default: false
+        type: boolean
   workflow_call:
+    inputs:
+      debugBuild:
+        description: 'Create debug binaries instead of release ones?'
+        default: false
+        type: boolean
 
 jobs:
   linuxstatic:
@@ -39,6 +49,7 @@ jobs:
             PKG_FETCH_OPTION_a=${{ matrix.target-arch }}
             PKG_FETCH_OPTION_n=node${{ matrix.target-node }}
             PKG_FETCH_OPTION_p=linuxstatic
+            PKG_FETCH_OPTION_d=${{ inputs.debugBuild }}
           context: .
           file: ./Dockerfile.alpine
           platforms: linux/amd64

@@ -2,7 +2,17 @@ name: Build Node binaries for Windows
 
 on:
   workflow_dispatch:
+    inputs:
+      debugBuild:
+        description: 'Create debug binaries instead of release ones?'
+        default: false
+        type: boolean
   workflow_call:
+    inputs:
+      debugBuild:
+        description: 'Create debug binaries instead of release ones?'
+        default: false
+        type: boolean
 
 jobs:
   windows-vs2019:
@@ -26,15 +36,15 @@ jobs:
 
       - run: choco install nasm
 
-      - run: yarn start --node-range node${{ matrix.target-node }} --arch ${{ matrix.target-arch }} --output dist
+      - run: yarn start --node-range node${{ matrix.target-node }} --arch ${{ matrix.target-arch }} --output dist --debug ${{ inputs.debugBuild }}
 
       - name: Check if binary is compiled, skip if download only
         id: check_file
         run: |
           ls dist
-          if (Test-Path -Path dist\\*.sha256sum -PathType Leaf) { 
+          if (Test-Path -Path dist\\*.sha256sum -PathType Leaf) {
             "EXISTS=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          } else { 
+          } else {
             "EXISTS=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           }
 

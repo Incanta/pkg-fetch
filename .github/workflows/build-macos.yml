@@ -2,7 +2,17 @@ name: Build Node binaries for macOS
 
 on:
   workflow_dispatch:
+    inputs:
+      debugBuild:
+        description: 'Create debug binaries instead of release ones?'
+        default: false
+        type: boolean
   workflow_call:
+    inputs:
+      debugBuild:
+        description: 'Create debug binaries instead of release ones?'
+        default: false
+        type: boolean
 
 jobs:
   macos-x64:
@@ -32,7 +42,7 @@ jobs:
         run: |
           pip install setuptools
 
-      - run: yarn start --node-range node${{ matrix.target-node }} --output dist
+      - run: yarn start --node-range node${{ matrix.target-node }} --output dist--debug ${{ inputs.debugBuild }}
 
       - name: Check if binary is compiled, skip if download only
         id: check_file

@@ -52,6 +52,7 @@ interface NeedOptions {
   nodeRange: string;
   platform: string;
   arch: string;
+  debug: boolean;
 }
 
 export function satisfyingNodeVersion(nodeRange: string) {
@@ -88,7 +89,7 @@ export function getNodeVersion(nodeRange: string) {
 
 export async function need(opts: NeedOptions) {
   // eslint-disable-line complexity
-  const { forceFetch, forceBuild, dryRun, output, nodeRange } = opts || {};
+  const { forceFetch, forceBuild, dryRun, output, nodeRange, debug } = opts || {};
   let { platform, arch } = opts || {};
 
   if (!nodeRange) throw wasReported('nodeRange not specified');
@@ -188,7 +189,7 @@ export async function need(opts: NeedOptions) {
     return 'built';
   }
 
-  await build(nodeVersion, arch, platform, built);
+  await build(nodeVersion, arch, platform, built, debug);
   return built;
 }
 

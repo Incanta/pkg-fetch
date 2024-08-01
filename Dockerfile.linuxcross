@@ -40,8 +40,9 @@ RUN yarn install --ignore-engines
 
 ARG PKG_FETCH_OPTION_a
 ARG PKG_FETCH_OPTION_n
+ARG PKG_FETCH_OPTION_d
 
-RUN yarn start --arch $PKG_FETCH_OPTION_a --node-range $PKG_FETCH_OPTION_n --output dist
+RUN yarn start --arch $PKG_FETCH_OPTION_a --node-range $PKG_FETCH_OPTION_n --output dist --debug $PKG_FETCH_OPTION_d
 
 FROM scratch
 COPY --from=build /root/pkg-fetch/dist /
